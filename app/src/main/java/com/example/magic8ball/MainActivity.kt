@@ -13,12 +13,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.magic8ball.ui.theme.Magic8BallTheme
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,28 +40,37 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun App(modifier: Modifier = Modifier) {
+    // exemplo state
+    val message = remember { mutableStateOf("") }
+    // variavel estatica comum
+    var results: List<String> = listOf<String>("Com certeza!", "Não conte com isso", "Talvez")
+
     Column(
-        modifier=Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
 
-    ) {
+        ) {
         Text(
-            text = "Hello",
+            text = "Está com dúvida?",
             modifier = modifier,
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold
         )
         Text(
-            text = "teste",
-            fontStyle = FontStyle.Italic
+            text = "Faça uma pergunta e irei te ajudar a decidir",
+            style = MaterialTheme.typography.bodyMedium,
         )
         Text(
-            text = ":)",
-            fontWeight = FontWeight.ExtraBold
+            text = message.value,
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold
         )
-        Button(onClick = {}) {
-            Text(text = "click!")
+        Button(onClick = {
+            message.value =
+                if (message.value.isEmpty()) results[Random.Default.nextInt(results.size)] else ""
+        }) {
+            Text(text = "Perguntar")
         }
     }
 }
