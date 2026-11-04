@@ -70,7 +70,7 @@ fun App(modifier: Modifier = Modifier) {
             message.value =
                 if (message.value.isEmpty()) results[Random.Default.nextInt(results.size)] else ""
         }) {
-            Text(text = "Perguntar")
+            Text(text = if (message.value.isEmpty()) "Perguntar" else "Limpar")
         }
     }
 }
